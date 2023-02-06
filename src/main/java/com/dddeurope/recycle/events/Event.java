@@ -1,4 +1,4 @@
-package com.dddeurope.recycle;
+package com.dddeurope.recycle.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -16,6 +16,14 @@ public record Event<TPayload>(
             payload.getClass().getSimpleName(),
             UUID.randomUUID().toString(),
             LocalDateTime.now(),
+            payload
+        );
+    }
+    public Event(String eventId, LocalDateTime createdAt, TPayload payload) {
+        this(
+            payload.getClass().getSimpleName(),
+            eventId,
+            createdAt,
             payload
         );
     }
