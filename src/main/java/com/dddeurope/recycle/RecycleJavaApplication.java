@@ -12,17 +12,17 @@ import javax.management.ObjectName;
 @SpringBootApplication
 public class RecycleJavaApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(RecycleJavaApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(RecycleJavaApplication.class, args);
+    }
 
-	@Bean
-	public ObjectMapper objectMapper() {
-		var mapper = new ObjectMapper();
-		mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-		mapper.registerModule(new JavaTimeModule());
+    @Bean
+    public ObjectMapper objectMapper() {
+        var mapper = new ObjectMapper();
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.registerModule(new JavaTimeModule());
 
-		return mapper;
-	}
+        return mapper;
+    }
 
 }

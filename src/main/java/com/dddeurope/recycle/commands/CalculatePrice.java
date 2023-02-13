@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public final class CalculatePrice implements Command {
     @JsonProperty("card_id")
-    private  String cardId;
+    private String cardId;
 
     public CalculatePrice() {
     }

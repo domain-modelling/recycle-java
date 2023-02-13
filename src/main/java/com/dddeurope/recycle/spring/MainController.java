@@ -41,7 +41,11 @@ public class MainController {
     public record RecycleRequest(List<EventMessage> history, CommandMessage command) {
 
         public String asString() {
-            return String.format("\n%s \nWith History\n\t\t%s", command, String.join("\n\t\t", history.stream().map(EventMessage::toString).toList()));
+            var historyAsString = history.stream()
+                    .map(EventMessage::toString)
+                    .reduce("", (first, second) -> first + "\n\t\t" + second);
+
+            return String.format("%n%s %nWith History%n%s", command, historyAsString);
         }
 
     }
