@@ -1,3 +1,9 @@
 package com.dddeurope.recycle.events;
 
-public record IdCardRegistered(String cardId, String personId, String address, String city) { }
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record IdCardRegistered(@JsonProperty("card_id") String cardId,
+                               @JsonProperty("person_id") String personId,
+                               @JsonProperty("address") String address,
+                               @JsonProperty("city") String city) implements Event {
+}

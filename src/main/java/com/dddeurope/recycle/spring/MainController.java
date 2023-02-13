@@ -1,32 +1,23 @@
 package com.dddeurope.recycle.spring;
 
-import static com.dddeurope.recycle.commands.CommandParser.parse;
-
-import com.dddeurope.recycle.events.Event;
-import com.dddeurope.recycle.events.EventParser;
+import com.dddeurope.recycle.commands.CommandMessage;
+import com.dddeurope.recycle.events.EventMessage;
 import com.dddeurope.recycle.events.PriceWasCalculated;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 public class MainController {
 
-    private final ObjectMapper mapper;
-
-    public MainController() {
-        mapper = new ObjectMapper();
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        mapper.registerModule(new JavaTimeModule());
-    }
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
 
     @GetMapping("/validate")
     public String validate() {
@@ -34,32 +25,25 @@ public class MainController {
     }
 
     @PostMapping("/handle-command")
-    public String handle(@RequestBody RecycleRequest request) {
-        request.history.stream()
-            .map(EventParser::parse)
-            .forEach(System.out::println);
-        System.out.println(parse(request.command));
+    public ResponseEntity<EventMessage> handle(@RequestBody RecycleRequest request) {
+        LOGGER.info("Incoming Command: {}", request.asString());
 
-        try {
-            return mapper.writeValueAsString(
-                new Event<>(new PriceWasCalculated("123", 0.0, "EUR"))
-            );
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+
+        var message = new EventMessage();
+        message.setType("PriceWasCalculated");
+        message.setEventId("123");
+        message.setCreatedAt(LocalDateTime.now());
+        message.setPayload(new PriceWasCalculated("123", 0.0, "EUR"));
+
+        return ResponseEntity.ok(message);
     }
 
-    public static class RecycleRequest {
-        public List<String> history = new ArrayList<>();
-        public String command = "";
+    public record RecycleRequest(List<EventMessage> history, CommandMessage command) {
 
-        @Override
-        public String toString() {
-            return "Request{" +
-                "history=" + history +
-                ", command='" + command + '\'' +
-                '}';
+        public String asString() {
+            return String.format("\n%s \nWith History\n\t\t%s", command, String.join("\n\t\t", history.stream().map(EventMessage::toString).toList()));
         }
+
     }
 
 }
