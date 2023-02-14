@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class MainController {
@@ -26,14 +27,9 @@ public class MainController {
 
     @PostMapping("/handle-command")
     public ResponseEntity<EventMessage> handle(@RequestBody RecycleRequest request) {
-        LOGGER.info("Incoming Command: {}", request.asString());
+        LOGGER.info("Incoming Request: {}", request.asString());
 
-
-        var message = new EventMessage();
-        message.setType("PriceWasCalculated");
-        message.setEventId("123");
-        message.setCreatedAt(LocalDateTime.now());
-        message.setPayload(new PriceWasCalculated("123", 0.0, "EUR"));
+        var message = new EventMessage("todo", new PriceWasCalculated("123", 0.0, "EUR"));
 
         return ResponseEntity.ok(message);
     }
@@ -43,9 +39,9 @@ public class MainController {
         public String asString() {
             var historyAsString = history.stream()
                     .map(EventMessage::toString)
-                    .reduce("", (first, second) -> first + "\n\t\t" + second);
+                    .collect(Collectors.joining("\n\t"));
 
-            return String.format("%n%s %nWith History%n%s", command, historyAsString);
+            return String.format("%n%s %nWith History\n\t%s", command, historyAsString);
         }
 
     }

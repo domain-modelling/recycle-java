@@ -1,13 +1,11 @@
 package com.dddeurope.recycle.events;
 
-import com.dddeurope.recycle.commands.CalculatePrice;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.UUID;
 
 public final class EventMessage {
 
@@ -29,8 +27,15 @@ public final class EventMessage {
     private Event payload;
 
     public EventMessage() {
+        // for deserialization
     }
 
+    public EventMessage(String eventId, Event payload) {
+        this.eventId = eventId;
+        this.type = payload.getClass().getSimpleName();
+        this.createdAt = LocalDateTime.now();
+        this.payload = payload;
+    }
 
     public String getType() {
         return type;
