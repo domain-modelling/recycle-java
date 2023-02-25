@@ -22,6 +22,7 @@ public final class EventMessage {
             @JsonSubTypes.Type(value = IdCardScannedAtEntranceGate.class, name = "IdCardScannedAtEntranceGate"),
             @JsonSubTypes.Type(value = WeightWasMeasured.class, name = "WeightWasMeasured"),
             @JsonSubTypes.Type(value = FractionWasSelected.class, name = "FractionWasSelected"),
+            @JsonSubTypes.Type(value = FractionWasDropped.class, name = "FractionWasDropped"),
             @JsonSubTypes.Type(value = IdCardScannedAtExitGate.class, name = "IdCardScannedAtExitGate"),
     })
     private Event payload;
