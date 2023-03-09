@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,7 +29,7 @@ public class MainController {
     public ResponseEntity<EventMessage> handle(@RequestBody RecycleRequest request) {
         LOGGER.info("Incoming Request: {}", request.asString());
 
-        var message = new EventMessage("todo", new PriceWasCalculated("123", 0.0, "EUR"));
+        var message = new EventMessage("todo", new PriceWasCalculated("321", 0, "EUR"));
 
         return ResponseEntity.ok(message);
     }

@@ -18,12 +18,14 @@ public final class EventMessage {
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "type")
     @JsonSubTypes({
             @JsonSubTypes.Type(value = IdCardRegistered.class, name = "IdCardRegistered"),
-            @JsonSubTypes.Type(value = PriceWasCalculated.class, name = "PriceWasCalculated"),
+            @JsonSubTypes.Type(value = ExemptionWasGranted.class, name = "ExemptionWasGranted"),
+            @JsonSubTypes.Type(value = DiscountWasBought.class, name = "DiscountWasBought"),
             @JsonSubTypes.Type(value = IdCardScannedAtEntranceGate.class, name = "IdCardScannedAtEntranceGate"),
             @JsonSubTypes.Type(value = WeightWasMeasured.class, name = "WeightWasMeasured"),
             @JsonSubTypes.Type(value = FractionWasSelected.class, name = "FractionWasSelected"),
             @JsonSubTypes.Type(value = FractionWasDropped.class, name = "FractionWasDropped"),
             @JsonSubTypes.Type(value = IdCardScannedAtExitGate.class, name = "IdCardScannedAtExitGate"),
+            @JsonSubTypes.Type(value = PriceWasCalculated.class, name = "PriceWasCalculated"),
     })
     private Event payload;
 
