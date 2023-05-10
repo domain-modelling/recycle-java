@@ -29,7 +29,7 @@ public class MainController {
     public ResponseEntity<EventMessage> handle(@RequestBody RecycleRequest request) {
         LOGGER.info("Incoming Request: {}", request.asString());
 
-        var message = new EventMessage("todo", new PriceWasCalculated("321", 0, "EUR"));
+        var message = new EventMessage("todo", new PriceWasCalculated("123", 1, "EUR"));
 
         return ResponseEntity.ok(message);
     }
