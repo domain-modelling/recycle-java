@@ -3,7 +3,10 @@ This is the java client to use when participating in the Domain Modeling hands-o
 
 # Getting started
 ## Starting your server
-Start the application with this commandHandler `./mvnw spring-boot:run`.
+Start the application the runner of your choice.
+- gradle from cli: `./gradlew bootRun`.
+- maven from cli: `./mvnw spring-boot:run`
+- ... or whatever you see fit
 
 This will start your server locally on port `8080`
 
