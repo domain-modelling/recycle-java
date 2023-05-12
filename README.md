@@ -7,6 +7,10 @@ Start the application with your favorite runner: `./gradlew bootRun`, `./mvnw sp
 
 This will start your server locally on port `8080`
 
+If you want a continuous build on code change, you can run these two commands in separate terminals:
+- `./gradlew build --continuous`
+- `./gradlew bootRun`
+
 ## Setting up ngrok
 Make sure you have ngrok configured correctly. If unsure, please visit https://dashboard.ngrok.com/get-started/your-authtoken
 
