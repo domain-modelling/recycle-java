@@ -1,9 +1,11 @@
 # recycle-java
 This is the java client to use when participating in the Domain Modeling hands-on.
 
-# Getting started
 ## Starting your server
-Start the application with your favorite runner: `./gradlew bootRun`, `./mvnw spring-boot:run` or whatever you see fit
+Start the application with your favorite runner:
+- `./gradlew bootRun`
+- `./mvnw spring-boot:run`
+- or whatever you see fit
 
 This will start your server locally on port `8080`
 
@@ -23,3 +25,12 @@ Go to https://domainmodelling.dev and start a session.
 Add the url you got from ngrok as a client url when asked, and validate the connection.
 
 You are now ready to start. Follow the instructions for the exercises.
+
+## Getting to green
+Once you get to your first failing scenario (No fractions delivered), change [MainController.java](src/main/java/com/dddeurope/recycle/spring/MainController.java) to return `0` instead of `1`:
+
+``` java
+return ResponseEntity.ok(new EventMessage("todo", new PriceWasCalculated("123", 1, "EUR")));
+```
+
+
