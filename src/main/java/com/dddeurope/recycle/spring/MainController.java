@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,9 +41,15 @@ public class MainController {
         // PriceCalculator calculator = new PriceCalculator(eventsOf(request));
         // CalculatePrice command = commandOf(request);
         // double amount = calculator.calculatePrice(command.cardId());
-        // return ResponseEntity.ok(new EventMessage("todo", new PriceWasCalculated(command.cardId(), amount, "EUR")));
+        // return ResponseEntity.ok(new EventMessage(
+        //     UUID.randomUUID().toString(),
+        //     new PriceWasCalculated(command.cardId(), amount, "EUR")
+        // ));
 
-        return ResponseEntity.ok(new EventMessage("todo", new PriceWasCalculated("123", 1, "EUR")));
+        return ResponseEntity.ok(new EventMessage(
+            UUID.randomUUID().toString(),
+            new PriceWasCalculated("123", 1, "EUR")
+        ));
     }
 
     private List<Event> eventsOf(RecycleRequest request) {
