@@ -16,6 +16,6 @@ class PriceCalculatorTest {
             new IdCardScannedAtExitGate("123")
         );
 
-        assertThat(calculator.calculatePrice("123")).isEqualTo(0);
+        assertThat(calculator.calculatePrice("123")).isEqualTo(0.0);
     }
 }

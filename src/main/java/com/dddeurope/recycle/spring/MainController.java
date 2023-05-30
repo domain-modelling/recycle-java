@@ -22,6 +22,11 @@ public class MainController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
 
+    @GetMapping("/")
+    public String home() {
+        return "please enter a public URL to this site on https://domainmodelling.dev, as specified in the readme";
+    }
+
     @GetMapping("/validate")
     public String validate() {
         return "Hi!";
