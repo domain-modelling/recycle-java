@@ -1,6 +1,9 @@
 package com.dddeurope.recycle.spring;
 
+import com.dddeurope.recycle.commands.CalculatePrice;
 import com.dddeurope.recycle.commands.CommandMessage;
+import com.dddeurope.recycle.domain.PriceCalculator;
+import com.dddeurope.recycle.events.Event;
 import com.dddeurope.recycle.events.EventMessage;
 import com.dddeurope.recycle.events.PriceWasCalculated;
 import org.slf4j.Logger;
@@ -12,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,21 +31,33 @@ public class MainController {
     public ResponseEntity<EventMessage> handle(@RequestBody RecycleRequest request) {
         LOGGER.info("Incoming Request: {}", request.asString());
 
-        var message = new EventMessage("todo", new PriceWasCalculated("123", 1, "EUR"));
+        // If you have no inspiration to start implementing, uncomment this part:
+        // PriceCalculator calculator = new PriceCalculator(eventsOf(request));
+        // CalculatePrice command = commandOf(request);
+        // double amount = calculator.calculatePrice(command.cardId());
+        // return ResponseEntity.ok(new EventMessage("todo", new PriceWasCalculated(command.cardId(), amount, "EUR")));
 
-        return ResponseEntity.ok(message);
+        return ResponseEntity.ok(new EventMessage("todo", new PriceWasCalculated("123", 1, "EUR")));
+    }
+
+    private List<Event> eventsOf(RecycleRequest request) {
+        return request.history().stream()
+            .map(EventMessage::getPayload)
+            .collect(Collectors.toList());
+    }
+
+    private CalculatePrice commandOf(RecycleRequest request) {
+        return (CalculatePrice) request.command().getPayload();
     }
 
     public record RecycleRequest(List<EventMessage> history, CommandMessage command) {
 
         public String asString() {
             var historyAsString = history.stream()
-                    .map(EventMessage::toString)
-                    .collect(Collectors.joining("\n\t"));
+                .map(EventMessage::toString)
+                .collect(Collectors.joining("\n\t"));
 
             return String.format("%n%s %nWith History\n\t%s", command, historyAsString);
         }
-
     }
-
 }
